@@ -41,7 +41,7 @@ const Analytics = () => {
           <BestHabitCard habits={habits} />
         </div>
       ) : (
-        <EmptyState toggleModal={() => navigate("/dashboard")} />
+        !isLoading && <EmptyState toggleModal={() => navigate("/dashboard")} />
       )}
       {habits?.length > 0 && !isLoading && (
         <div className="flex items-center justify-between">

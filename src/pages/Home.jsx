@@ -374,9 +374,11 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <EmptyState
-            toggleModal={() => setShowNewHabitForm((prev) => !prev)}
-          />
+          !isLoading && (
+            <EmptyState
+              toggleModal={() => setShowNewHabitForm((prev) => !prev)}
+            />
+          )
         )}
       </Container>
       <HabitModal
