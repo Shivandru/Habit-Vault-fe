@@ -4,6 +4,7 @@ import Container from "../components/ui/Container";
 import Button from "../components/ui/Button";
 import toast from "react-hot-toast";
 import { generalFunction } from "../configs/generalFunction";
+import Loader from "../components/ui/Loader";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +25,12 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const { url } = generalFunction.createUrl("user/register");
       const res = await fetch(url, {
         method: "POST",
-        mode:"cors",
+        mode: "cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
@@ -36,14 +39,16 @@ const SignUp = () => {
         return;
       }
       const data = await res.json();
-      toast.success("Login successful!");
+      toast.success("Sign up successful!");
       setFormData({
         name: "",
         email: "",
         password: "",
       });
+      setIsLoading(false);
       navigate("/login");
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
       toast.error("Something went wrong. Please try again.");
     }
@@ -51,6 +56,7 @@ const SignUp = () => {
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4 pt-24 pb-12">
+      {isLoading && <Loader />}
       <Container className="max-w-md w-full bg-white shadow-xl rounded-xl p-8">
         <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center">
           Sign in to Habit Vault

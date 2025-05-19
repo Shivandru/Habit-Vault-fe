@@ -34,7 +34,7 @@ const Hero = () => {
                   size={18}
                 />
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => navigate("/login")}>
                 See How It Works
               </Button>
             </div>

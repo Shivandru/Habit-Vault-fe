@@ -1,13 +1,14 @@
 import { ArrowRight, CheckCircle } from "lucide-react";
 import Button from "../ui/Button";
 import Container from "../ui/Container";
+import { useNavigate } from "react-router-dom";
 
 const CTA = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-20">
       <Container>
         <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl overflow-hidden shadow-xl relative">
-          {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-700 rounded-full opacity-20 transform -translate-x-1/2 translate-y-1/2"></div>
 
@@ -24,6 +25,7 @@ const CTA = () => {
               <Button
                 size="lg"
                 className="bg-white text-blue-600 hover:bg-blue-50 group"
+                onClick={() => navigate("/login")}
               >
                 Get Started Free
                 <ArrowRight
@@ -35,6 +37,7 @@ const CTA = () => {
                 variant="outline"
                 size="lg"
                 className="border-white text-blue-600 hover:bg-blue-700/30 hover:text-white"
+                onClick={() => navigate("/login")}
               >
                 View Plans
               </Button>

@@ -7,6 +7,8 @@ import { generalFunction } from "../configs/generalFunction";
 import HabitModal from "../components/ui/HabitModal";
 import EmptyState from "../components/ui/EmptyState";
 import useLocalStorage from "../hooks/useLocalStorage";
+import Loader from "../components/ui/Loader";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const [showNewHabitForm, setShowNewHabitForm] = useState(false);
@@ -22,6 +24,7 @@ const Home = () => {
   const [selectedHabit, setSelectedHabit] = useState(null);
   const [isDark, setIsDark] = useState(false);
   const [userName] = useLocalStorage("userName", "");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const isDarkMode = document.documentElement.classList.contains("dark");
@@ -33,6 +36,7 @@ const Home = () => {
   }
 
   async function handleCreateHabit(e) {
+    setIsLoading(true);
     e.preventDefault();
     try {
       const { url } = generalFunction.createUrl("habit/create");
@@ -56,12 +60,17 @@ const Home = () => {
         customDays: [],
         startDate: "",
       });
+      setIsLoading(false);
+      toast.success("Habit created successfully!");
     } catch (error) {
+      toast.error("Something went wrong. Please try again.");
       console.log("error", error);
+      setIsLoading(false);
     }
   }
 
   async function getHabits() {
+    setIsLoading(true);
     try {
       const { url } = generalFunction.createUrl("habit");
       const res = await fetch(url, {
@@ -71,12 +80,15 @@ const Home = () => {
       });
       const data = await res.json();
       setHabits(data.data);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log("error", error);
     }
   }
 
   async function updateHabit(habitId, status) {
+    setIsLoading(true);
     const today = new Date();
     const date = today.toISOString().split("T")[0];
     const payload = {
@@ -92,12 +104,17 @@ const Home = () => {
         body: JSON.stringify(payload),
       });
       await getHabits();
+      setIsLoading(false);
+      toast.success("Habit updated successfully!");
     } catch (error) {
+      setIsLoading(false);
       console.log("error", error);
+      toast.error("Something went wrong. Please try again.");
     }
   }
 
   async function deleteHabit(habitId) {
+    setIsLoading(true);
     try {
       const { url } = generalFunction.createUrl(`habit/delete/${habitId}`);
       const res = await fetch(url, {
@@ -107,7 +124,11 @@ const Home = () => {
         method: "DELETE",
       });
       await getHabits();
+      setIsLoading(false);
+      toast.success("Habit deleted successfully!");
     } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      setIsLoading(false);
       console.log("error", error);
     }
   }
@@ -121,7 +142,6 @@ const Home = () => {
       <Container>
         <div className="mb-8 flex items-center justify-between">
           <div>
-            {/* <h1 className="text-2xl font-bold text-gray-900">My Habits</h1> */}
             <h1 className="text-2xl font-bold text-[var(--secondary-color)]">
               {userName ? `Welcome back, ${userName}!` : "My Habits"}
             </h1>
@@ -131,7 +151,7 @@ const Home = () => {
             New Habit
           </Button>
         </div>
-
+        {isLoading && <Loader />}
         {showNewHabitForm && (
           <Card className="mb-8">
             <form onSubmit={handleCreateHabit} className="space-y-4">
@@ -259,7 +279,7 @@ const Home = () => {
           </Card>
         )}
 
-        {habits?.length > 0 ? (
+        {habits?.length > 0 && !isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {habits?.map((habit) => (
               <div

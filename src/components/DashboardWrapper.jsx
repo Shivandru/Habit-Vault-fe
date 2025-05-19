@@ -74,7 +74,7 @@ const DashboardWrapper = ({ children }) => {
           >
             <ThemeToggle />
           </motion.div>
-          <motion.div
+          {/* <motion.div
             className="flex items-center gap-3 cursor-pointer text-[#ED0A34] font-medium"
             onClick={() => navigate("/login")}
             whileHover={{ scale: 1.02 }}
@@ -82,7 +82,7 @@ const DashboardWrapper = ({ children }) => {
           >
             <LogOut size={18} />
             <span>Logout</span>
-          </motion.div>
+          </motion.div> */}
         </div>
       </aside>
       <div className="w-[calc(100vw - 15rem)] h-screen flex flex-col">

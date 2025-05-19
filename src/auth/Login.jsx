@@ -5,6 +5,7 @@ import Button from "../components/ui/Button";
 import { generalFunction } from "../configs/generalFunction";
 import toast from "react-hot-toast";
 import useLocalStorage from "../hooks/useLocalStorage";
+import Loader from "../components/ui/Loader"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Login = () => {
     "userCredentials",
     ""
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +30,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const { url } = generalFunction.createUrl("user/login");
       const res = await fetch(url, {
@@ -51,8 +54,10 @@ const Login = () => {
         email: "",
         password: "",
       });
+      setIsLoading(false);
       navigate("/dashboard");
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
       toast.error("Something went wrong. Please try again.");
     }
@@ -60,6 +65,7 @@ const Login = () => {
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4 pt-24 pb-12">
+      {isLoading && <Loader />}
       <Container className="max-w-md w-full bg-white shadow-xl rounded-xl p-8">
         <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center">
           Log in to Habit Vault

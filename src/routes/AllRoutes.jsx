@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
@@ -44,6 +44,7 @@ const AllRoutes = () => {
           </DashboardWrapper>
         }
       />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };

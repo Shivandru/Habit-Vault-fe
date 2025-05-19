@@ -10,7 +10,7 @@ const Button = ({
   type = "button",
 }) => {
   const baseClasses =
-    "font-medium rounded-full transition-all duration-300 inline-flex items-center justify-center";
+    "font-medium rounded-full transition-all duration-300 inline-flex items-center justify-center cursor-pointer";
 
   const variantClasses = {
     primary:
