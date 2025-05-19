@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <div>
+    <div className="bg-[var(--bg-color)]">
       <Toaster
         position="top-right"
         reverseOrder={false}

@@ -4,6 +4,7 @@ import Container from "../components/ui/Container";
 import Button from "../components/ui/Button";
 import { generalFunction } from "../configs/generalFunction";
 import toast from "react-hot-toast";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +12,11 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [userName, setUserName] = useLocalStorage("userName", "");
+  const [userCredentials, setUserCredentials] = useLocalStorage(
+    "userCredentials",
+    ""
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +29,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Login submitted:", formData);
       const { url } = generalFunction.createUrl("user/login");
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
       if (!res.ok) {
@@ -35,11 +41,17 @@ const Login = () => {
         return;
       }
       const data = await res.json();
+      const user = data?.user;
+      if (user) {
+        setUserName(user.name);
+        setUserCredentials(user.email);
+      }
       toast.success("Login successful!");
       setFormData({
         email: "",
         password: "",
       });
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong. Please try again.");

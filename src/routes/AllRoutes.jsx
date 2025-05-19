@@ -6,6 +6,7 @@ import SignUp from "../auth/SignUp";
 import LoginWrapper from "../auth/LoginWrapper";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Home from "../pages/Home";
+import Analytics from "../pages/Analytics";
 
 const AllRoutes = () => {
   return (
@@ -28,10 +29,18 @@ const AllRoutes = () => {
         }
       />
       <Route
-        path="/home"
+        path="/dashboard"
         element={
           <DashboardWrapper>
             <Home />
+          </DashboardWrapper>
+        }
+      />
+      <Route
+        path="/analytics"
+        element={
+          <DashboardWrapper>
+            <Analytics />
           </DashboardWrapper>
         }
       />

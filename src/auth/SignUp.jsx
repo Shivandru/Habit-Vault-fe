@@ -24,10 +24,10 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Login submitted:", formData);
       const { url } = generalFunction.createUrl("user/register");
       const res = await fetch(url, {
         method: "POST",
+        mode:"cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });

@@ -1,7 +1,6 @@
 export const NAV_ITEMS = [
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "Testimonials", href: "#testimonials" },
 ];
 
 export const FEATURES = [
